@@ -1,0 +1,93 @@
+def getNewsSentiment (stringer, coder):
+ print ("\n")
+ part='https://finnhub.io/api/v1/news-sentiment?symbol=' +stringer+ 'token='+coder
+ r = requests.get(part)
+ #print (r.text)
+ #df = pd.DataFrame(r.json()).to_excel("newssentiment.xlsx")
+ keylist = list (r.json().keys())
+ valuelist =list (r.json().values())
+ for x in range(len (valuelist)):
+     print("\n")
+     print(keylist[x] + ":", end=" ")
+     print(valuelist[x], end="    ")
+
+def getCompanyNews (stringer, coder):
+ print("\n")
+ part='https://finnhub.io/api/v1/company-news?symbol=' +stringer+ '&from=2020-04-30&to=2020-05-01&token='+coder
+ r = requests.get(part)
+ try:
+     df = pd.DataFrame(r.json()).to_excel("companynews.xlsx")
+ except:
+     print("Could not form Excel spreadsheet")
+ for x in range(len(r.json())):
+     print(r.json()[x])
+     print("\n")
+
+def getMarketNews (coder):
+ r = requests.get('https://finnhub.io/api/v1/news?category=general&token='+coder)
+ #print(r.json())
+ try:
+     df = pd.DataFrame(r.json()).to_excel("marketnews.xlsx")
+ except:
+     print("Could not form Excel spreadsheet")
+ for x in range(len(r.json())):
+     print(r.json()[x])
+     print("\n")
+
+
+while f!='11':
+   f=input ("\nPress 1 for major stats, press 2 for general stock market news, press 3 for candelstick data, press 4 for advanced metrics, press 5 for media sentiment, press 6 for company news, \n press 7 to get real time stock data, press 8 to get a graph of the moving average, press 9 for price targets, press 10 for recent trends, press 11 to QUIT: ")
+   if f=='2' or f=='3' or f=='4' or f=='6' or f=='10':
+       print ("\nStatistics will be exported into an excel spreadsheet\n")
+   if f=='11':
+       print ("\n Done")
+       break
+   if f=='1':
+     stringer = input("Type in the ticker for the company you want: ")
+     mystocks.append(stringer)
+     try:
+         getmajorstats(stringer)
+     except:
+         print ("This data is unavailable at this time")
+
+   if f=='2':
+      coder = input("For advanced data, go to https://finnhub.io/dashboard and generate an API key; type your code below" + "\n")
+      try:
+          getMarketNews(coder)
+      except:
+          print("This data is unavailable at this time")
+
+   if f=='3':
+     stringer = input("Type in the ticker for the company you want: ")
+     mystocks.append(stringer)
+     coder = input("For advanced data, go to https://finnhub.io/dashboard and generate an API key; type your code below" + "\n")
+     try:
+         getcandles(stringer, coder)
+     except:
+         print("This data is unavailable at this time")
+
+   if f=='4':
+     stringer = input("Type in the ticker for the company you want: ")
+     mystocks.append(stringer)
+     coder = input("For advanced data, go to https://finnhub.io/dashboard and generate an API key; type your code below" + "\n")
+     try:
+         getmetrics(stringer, coder)
+     except:
+         print("This data is unavailable at this time")
+   if f=='5':
+     stringer = input("Type in the ticker for the company you want: ")
+     mystocks.append(stringer)
+     coder = input("For advanced data, go to https://finnhub.io/dashboard and generate an API key; type your code below" + "\n")
+     try:
+         getNewsSentiment(stringer, coder)
+     except:
+         print("This data is unavailable at this time")
+
+   if f=='6':
+     stringer = input("Type in the ticker for the company you want: ")
+     mystocks.append(stringer)
+     coder = input("For advanced data, go to https://finnhub.io/dashboard and generate an API key; type your code below" + "\n")
+     try:
+         getCompanyNews(stringer, coder)
+     except:
+         print("This data is unavailable at this time")
