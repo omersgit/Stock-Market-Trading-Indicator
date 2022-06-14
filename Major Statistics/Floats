@@ -1,0 +1,35 @@
+
+prices = soup.find_all("table", {'class': "mod-ui-table mod-ui-table--two-column"})
+ values = [x.get_text() for x in prices]
+ for value in values:
+     pricelist.append(value)
+ finder = pricelist[1]
+ floatfinder = finder[pricelist[1].find("Free"):pricelist[1].find("P/E")+1]
+ oustanding = finder[pricelist[1].find("Shares"):pricelist[1].find("Free")+1]
+ floatfinder=floatfinder [floatfinder.find ("t")+1:floatfinder.find ("p")]
+ oustanding=oustanding [oustanding.find ("g")+1:oustanding.find ("f")]
+ list.append (floatfinder)
+ list.append (oustanding)
+ if "m" in floatfinder:
+     x=float (floatfinder [0:floatfinder.find ("m")])
+     if "m" in oustanding:
+         y=float (oustanding [0:oustanding.find ("m")])
+         list.append ((x/y)*100)
+
+
+     elif "b" in oustanding:
+         y = float(oustanding[0:oustanding.find("b")])
+         x=x/1000
+         list.append((x / y) * 100)
+
+
+ if "b" in floatfinder:
+     x=float (floatfinder [0:floatfinder.find ("b")])
+     if "b" in oustanding:
+         y=float (oustanding [0:oustanding.find ("b")])
+         list.append((x / y) * 100)
+
+     elif "m" in oustanding:
+         y = float(oustanding[0:oustanding.find("m")])
+         y=y/1000
+         list.append((x / y) * 100)
