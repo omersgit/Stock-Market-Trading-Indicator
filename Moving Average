@@ -1,0 +1,56 @@
+ef movingaverage (stringer,coder):
+ from alpha_vantage.techindicators import TechIndicators
+ import matplotlib.pyplot as plt
+ api_key=coder
+ ts=TimeSeries(key=api_key, output_format='pandas')
+ data_ts, meta_data_ts=ts.get_intraday (symbol=stringer, interval='1min', outputsize='full')
+ period=60
+ ti=TechIndicators(key=api_key, output_format='pandas')
+ data_ti, meta_data_ti=ti.get_sma (symbol=stringer, interval='1min', time_period=period, series_type='close')
+ df1=data_ti
+ #print (data_ts)
+ df2=data_ts['4. close'].iloc[period-1::]
+ df2.index=df1.index
+ total_df=pd.concat([df1,df2],axis=1)
+ print (total_df)
+ total_df.plot ()
+ plt.show ()
+ 
+ if f=='7':
+     stringer = input("Type in the ticker for the company you want: ")
+     mystocks.append(stringer)
+     reciever = input("Enter your email to receive alerts: ")
+     try:
+         getstockrealtime(stringer, reciever)
+     except:
+         print("This data is unavailable at this time")
+   if f=='8':
+     stringer = input("Type in the ticker for the company you want: ")
+     mystocks.append(stringer)
+     coder = input("For advanced data, go to https://finnhub.io/dashboard and generate a Free API key; type your code below" + "\n")
+     try:
+         movingaverage(stringer, coder)
+     except:
+         print("This data is unavailable at this time")
+         
+while f!='11':
+   f=input ("\nPress 1 for major stats, press 2 for general stock market news, press 3 for candelstick data, press 4 for advanced metrics, press 5 for media sentiment, press 6 for company news, \n press 7 to get real time stock data, press 8 to get a graph of the moving average, press 9 for price targets, press 10 for recent trends, press 11 to QUIT: ")
+   if f=='2' or f=='3' or f=='4' or f=='6' or f=='10':
+       print ("\nStatistics will be exported into an excel spreadsheet\n")
+   if f=='11':
+       print ("\n Done")
+       break
+   if f=='1':
+     stringer = input("Type in the ticker for the company you want: ")
+     mystocks.append(stringer)
+     try:
+         getmajorstats(stringer)
+     except:
+         print ("This data is unavailable at this time")
+
+   if f=='2':
+      coder = input("For advanced data, go to https://finnhub.io/dashboard and generate an API key; type your code below" + "\n")
+      try:
+          getMarketNews(coder)
+      except:
+          print("This data is unavailable at this time")
