@@ -1,0 +1,46 @@
+def getstockrealtime (stringer, reciever):
+ print ("\n")
+ x = '1'
+ while x == '1':
+     api_key = 'MN4T6WKXE0QLG4WP'
+     ts = TimeSeries(key=api_key, output_format='pandas')
+     data, meta_data = ts.get_intraday(symbol=stringer, interval='1min', outputsize='full')
+     print (data)
+     close_data = data['4. close']
+     percentage_change = close_data.pct_change()
+
+     print(percentage_change)
+
+     last_change = percentage_change[-1]
+
+     if abs(last_change) > 0.04:
+         import smtplib
+         with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+             print("Alert: %d"% last_change)
+             smtp.ehlo()
+             smtp.starttls()
+             smtp.ehlo()
+
+             smtp.login('stocksalertsss@gmail.com', 'stocks123')
+
+             subject = 'STOCK ALERT'
+             body = stringer+' stock has exceeded a 4% change'
+             msg = f'Subject: {subject}\n\n{body}'
+
+             smtp.sendmail('stocksalertsss@gmail.com', reciever, msg)
+
+
+
+     x=input ("\nPress 0 to quit, 1 to wait for updates for the prices: ")
+     if x=='0':
+         return
+     else:
+         print ("\nNew updates will come every minute")
+         time.sleep(60)
+
+def movingaverage (stringer,coder):
+ from alpha_vantage.techindicators import TechIndicators
+ import matplotlib.pyplot as plt
+ api_key=coder
+ ts=TimeSeries(key=api_key, output_format='pandas')
+ data_ts, meta_data_ts=ts.get_intraday (symbol=stringer, interval='1min', outputsize='full')
