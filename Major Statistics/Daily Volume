@@ -1,0 +1,20 @@
+def getmajorstats (stringer):
+ x=getprice(stringer)
+ y=opener(stringer)
+ headings = ["Price", "Change (D)", "Vol (D)", "Change (Y)", "Beta", "Float", "Shares Outstanding", "Percent"]
+ mydata = [(x[0], x[1], x[2], x[3], x[4], y [0], y [1], y[2])]
+ print ("Here is your major stock data: ")
+ print (mystocks)
+ print(tabulate(mydata, headers=headings, tablefmt="fancy_grid"))
+
+def getcandles (stringer, coder):
+   r = requests.get('https://finnhub.io/api/v1/stock/candle?symbol='+stringer+ '&resolution=1&from=1572651390&to=1572910590&token='+coder)
+   try:
+       df = pd.DataFrame(r.json ()).to_excel("candelstick.xlsx")
+   except:
+       print("Could not form Excel spreadsheet")
+   print (r.json ())
+
+ #finnhub_client = finnhub.Client(api_key="bso6f17rh5rctp1fspm0")
+ # Stock candles
+ #print(finnhub_client.stock_candles(stringer, 'D', 1590988249, 1591852249))
